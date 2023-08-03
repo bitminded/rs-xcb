@@ -1,0 +1,8 @@
+[package]
+name = "xcb"
+version = "0.1.0"
+authors = ["Michael Graf"]
+
+[lib]
+name = "xcb"
+src = "src/lib.rs"
