@@ -2,7 +2,7 @@ use std::ffi::CString;
 use std::ptr::{null, null_mut};
 use std::error::Error;
 
-mod cdef;
+pub mod cdef;
 pub mod constants;
 
 pub type XCBAtom = cdef::XCBAtom;
