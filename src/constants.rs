@@ -1,4 +1,4 @@
-use std::os::raw::{c_uchar, c_ushort, c_uint, c_long};
+use std::os::raw::{c_long, c_uchar, c_uint, c_ushort};
 
 pub const XCB_COPY_FROM_PARENT: c_long = 0;
 pub const XCB_WINDOW_CLASS_INPUT_OUTPUT: c_ushort = 1;
