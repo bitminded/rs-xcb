@@ -7,10 +7,9 @@ pub type XCBTimestamp = c_uint;
 pub type XCBColormap = c_uint;
 pub type XCBVisualId = c_uint;
 
-// opaque type
 #[repr(C)]
 pub struct XCBConnection {
-    _private: [u8; 0],
+    _opaque: [u8; 0],
 }
 
 #[repr(C)]
