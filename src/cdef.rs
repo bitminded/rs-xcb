@@ -101,13 +101,8 @@ pub struct XCBClientMessageEvent {
     pub data: [c_uchar; 20],
 }
 
-/// TODO: Clear up some misunderstandings about this data structure.
-///       Since the data field of a client_message can be 8, 16 or 32-bit format,
-///       what is the point of having all 3 of these present in this structure?
-///       Shouldn't all 3 fields contain the exact same byte data?
 #[repr(C)]
-#[derive(Debug)]
-pub struct XCBClientMessageData {
+pub union XCBClientMessageData {
     pub data8: [c_uchar; 20],
     pub data16: [c_ushort; 10],
     pub data32: [c_uint; 5],
