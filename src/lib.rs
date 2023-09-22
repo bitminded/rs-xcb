@@ -141,6 +141,14 @@ pub fn xcb_create_window(
     }
 }
 
+/// Accessor for setup data returned by the server when the connection was initialized.
+///
+/// # Parameters
+/// ## connection
+/// The connection.
+///
+/// # Return value
+/// The setup data of the connection. It is not to be freed by application code.
 pub fn xcb_get_setup(connection: &XCBConnection) -> DoNotFree<cdef::XCBSetup> {
     let xcb_setup = unsafe { cdef::xcb_get_setup(connection.raw) };
 
