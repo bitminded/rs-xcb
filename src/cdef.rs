@@ -1,11 +1,15 @@
 use std::os::raw::{c_char, c_int, c_short, c_uchar, c_uint, c_ushort, c_void};
 
 pub type XCBAtom = c_uint;
-pub type XCBSetup = c_void;
 pub type XCBWindow = c_uint;
 pub type XCBTimestamp = c_uint;
 pub type XCBColormap = c_uint;
 pub type XCBVisualId = c_uint;
+
+#[repr(C)]
+pub struct XCBSetup {
+    _opaque: [u8; 0],
+}
 
 #[repr(C)]
 pub struct XCBConnection {
