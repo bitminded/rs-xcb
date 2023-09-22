@@ -86,19 +86,13 @@ pub struct XCBDestroyNotifyEvent {
 }
 
 #[repr(C)]
-#[derive(Debug)]
 pub struct XCBClientMessageEvent {
     pub response_type: c_uchar,
     pub format: c_uchar,
     pub sequence: c_ushort,
     pub window: XCBWindow,
     pub data_type: XCBAtom,
-    // Note: Although the xcb headers say that the correct
-    //       type for this field is xcb_client_message_data_t,
-    //       it doesn't seem to be correct. So for now we are going to
-    //       use a generic byte array.
-    // pub data: XCBClientMessageData
-    pub data: [c_uchar; 20],
+    pub data: XCBClientMessageData,
 }
 
 #[repr(C)]
