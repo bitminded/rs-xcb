@@ -5,6 +5,11 @@ use std::ptr::{null, null_mut};
 pub mod cdef;
 pub mod constants;
 
+/// A simple wrapper struct for raw pointers that are not meant to be freed by application code.
+pub struct DoNotFree<T> {
+    data: *mut T,
+}
+
 pub type XCBAtom = cdef::XCBAtom;
 pub type XCBTimestamp = cdef::XCBTimestamp;
 pub type XCBColormap = cdef::XCBColormap;
@@ -44,11 +49,6 @@ pub type XCBClientMessageData = cdef::XCBClientMessageData;
 
 pub struct XCBConnection {
     raw: *mut cdef::XCBConnection,
-}
-
-pub struct XCBSetup {
-    /// DO NOT FREE THIS
-    raw: *mut cdef::XCBSetup,
 }
 
 pub fn xcb_connect(
@@ -141,18 +141,18 @@ pub fn xcb_create_window(
     }
 }
 
-pub fn xcb_get_setup(connection: &XCBConnection) -> XCBSetup {
-    let xcb_setup_ptr = unsafe { cdef::xcb_get_setup(connection.raw) };
+pub fn xcb_get_setup(connection: &XCBConnection) -> DoNotFree<cdef::XCBSetup> {
+    let xcb_setup = unsafe { cdef::xcb_get_setup(connection.raw) };
 
-    XCBSetup {
-        raw: xcb_setup_ptr as *mut cdef::XCBSetup,
+    DoNotFree::<cdef::XCBSetup> {
+        data: xcb_setup as *mut cdef::XCBSetup,
     }
 }
 
-pub fn xcb_setup_roots_iterator(setup: &XCBSetup) -> XCBScreenIterator {
+pub fn xcb_setup_roots_iterator(setup: &DoNotFree<cdef::XCBSetup>) -> XCBScreenIterator {
     unsafe {
         XCBScreenIterator {
-            raw: cdef::xcb_setup_roots_iterator(setup.raw),
+            raw: cdef::xcb_setup_roots_iterator(setup.data),
         }
     }
 }
