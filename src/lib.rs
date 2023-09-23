@@ -10,6 +10,14 @@ pub struct DoNotFree<T> {
     data: *mut T,
 }
 
+impl<T> std::ops::Deref for DoNotFree<T> {
+    type Target = T;
+
+    fn deref(&self) -> &Self::Target {
+        unsafe { &(*self.data) }
+    }
+}
+
 pub type XCBAtom = cdef::XCBAtom;
 pub type XCBTimestamp = cdef::XCBTimestamp;
 pub type XCBColormap = cdef::XCBColormap;
@@ -22,25 +30,7 @@ pub type XCBInternAtomReply = cdef::XCBInternAtomReply;
 pub type XCBScreen = cdef::XCBScreen;
 pub type XCBGetAtomNameCookie = cdef::XCBGetAtomNameCookie;
 pub type XCBGetAtomNameReply = cdef::XCBGetAtomNameReply;
-
-pub struct XCBScreenIterator {
-    raw: cdef::XCBScreenIterator,
-}
-
-impl XCBScreenIterator {
-    pub fn get_data(&self) -> XCBScreen {
-        unsafe { (*self.raw.data).clone() }
-    }
-
-    pub fn is_last(&self) -> bool {
-        if self.raw.rem == 0 {
-            true
-        } else {
-            false
-        }
-    }
-}
-
+pub type XCBScreenIterator = cdef::XCBScreenIterator;
 pub type XCBGenericEvent = cdef::XCBGenericEvent;
 pub type XCBEnterNotifyEvent = cdef::XCBEnterNotifyEvent;
 pub type XCBDestroyNotifyEvent = cdef::XCBDestroyNotifyEvent;
@@ -157,16 +147,37 @@ pub fn xcb_get_setup(connection: &XCBConnection) -> DoNotFree<cdef::XCBSetup> {
     }
 }
 
+/// Creates an iterator for iterating over the available screens contained in the setup.
+///
+/// # Parameters
+/// ## setup
+/// The setup.
+///
+/// # Return value
+/// An iterator.
 pub fn xcb_setup_roots_iterator(setup: &DoNotFree<cdef::XCBSetup>) -> XCBScreenIterator {
-    unsafe {
-        XCBScreenIterator {
-            raw: cdef::xcb_setup_roots_iterator(setup.data),
-        }
-    }
+    unsafe { cdef::xcb_setup_roots_iterator(setup.data) }
 }
 
-pub fn xcb_screen_next(i: &mut XCBScreenIterator) {
-    unsafe { cdef::xcb_screen_next(&mut i.raw as *mut cdef::XCBScreenIterator) }
+/// Accessor for a screen iterator's current data.
+///
+/// # Parameters
+/// ## iter
+/// The iterator
+///
+/// # Return value
+/// The screen. It is not to be freed by application code.
+pub fn xcb_screen(iter: &XCBScreenIterator) -> DoNotFree<XCBScreen> {
+    DoNotFree::<XCBScreen> { data: iter.data }
+}
+
+/// Advances the given iterator to the next screen.
+///
+/// # Parameters
+/// ## iter
+/// The iterator
+pub fn xcb_screen_next(iter: &mut XCBScreenIterator) {
+    unsafe { cdef::xcb_screen_next(iter as *mut cdef::XCBScreenIterator) }
 }
 
 pub fn xcb_map_window(connection: &XCBConnection, window: XCBWindow) -> XCBVoidCookie {

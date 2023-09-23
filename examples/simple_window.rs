@@ -2,7 +2,7 @@ extern crate xcb;
 
 use xcb::{
     xcb_connect, xcb_create_window, xcb_disconnect, xcb_flush, xcb_generate_id, xcb_get_setup,
-    xcb_map_window, xcb_setup_roots_iterator,
+    xcb_map_window, xcb_screen, xcb_setup_roots_iterator,
 };
 
 fn main() {
@@ -13,7 +13,7 @@ fn main() {
 
     let setup = xcb_get_setup(&connection);
     let iter = xcb_setup_roots_iterator(&setup);
-    let screen = iter.get_data();
+    let screen = xcb_screen(&iter);
     let window_id = xcb_generate_id(&connection);
     xcb_create_window(
         &connection,
