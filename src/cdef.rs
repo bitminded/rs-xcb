@@ -207,4 +207,13 @@ extern "system" {
         window: XCBWindow,
         visual: XCBVisualId,
     ) -> XCBVoidCookie;
+    pub fn xcb_clear_area(
+        connection: *mut XCBConnection,
+        exposures: c_uchar,
+        window: XCBWindow,
+        x: c_short,
+        y: c_short,
+        width: c_ushort,
+        height: c_ushort,
+    ) -> XCBVoidCookie;
 }

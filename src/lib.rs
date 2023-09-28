@@ -308,3 +308,16 @@ pub fn xcb_create_colormap(
 ) -> XCBVoidCookie {
     unsafe { cdef::xcb_create_colormap(connection.raw, alloc, mid, window, visual) }
 }
+
+pub fn xcb_clear_area(
+    connection: &XCBConnection,
+    exposures: bool,
+    window: XCBWindow,
+    x: i16,
+    y: i16,
+    width: u16,
+    height: u16,
+) -> XCBVoidCookie {
+    let exposures = if exposures { 1 } else { 0 };
+    unsafe { cdef::xcb_clear_area(connection.raw, exposures, window, x, y, width, height) }
+}
