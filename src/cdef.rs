@@ -216,4 +216,11 @@ extern "system" {
         width: c_ushort,
         height: c_ushort,
     ) -> XCBVoidCookie;
+    pub fn xcb_send_event(
+        connection: *mut XCBConnection,
+        propagate: c_uchar,
+        desintation: XCBWindow,
+        event_mask: c_uint,
+        event: *const XCBGenericEvent,
+    ) -> XCBVoidCookie;
 }

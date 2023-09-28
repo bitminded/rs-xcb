@@ -321,3 +321,22 @@ pub fn xcb_clear_area(
     let exposures = if exposures { 1 } else { 0 };
     unsafe { cdef::xcb_clear_area(connection.raw, exposures, window, x, y, width, height) }
 }
+
+pub fn xcb_send_event(
+    connection: &XCBConnection,
+    propagate: bool,
+    destination: XCBWindow,
+    event_mask: u32,
+    event: Box<XCBGenericEvent>,
+) -> XCBVoidCookie {
+    let propagate = if propagate { 1 } else { 0 };
+    unsafe {
+        cdef::xcb_send_event(
+            connection.raw,
+            propagate,
+            destination,
+            event_mask,
+            Box::into_raw(event),
+        )
+    }
+}
