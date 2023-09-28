@@ -77,6 +77,20 @@ pub struct XCBEnterNotifyEvent {
 }
 
 #[repr(C)]
+pub struct XCBExposeEvent {
+    pub response_type: c_uchar,
+    pub pad0: c_uchar,
+    pub sequence: c_ushort,
+    pub window: XCBWindow,
+    pub x: c_ushort,
+    pub y: c_ushort,
+    pub width: c_ushort,
+    pub height: c_ushort,
+    pub count: c_ushort,
+    pub pad1: [c_uchar; 2],
+}
+
+#[repr(C)]
 pub struct XCBDestroyNotifyEvent {
     pub response_type: c_uchar,
     pub pad0: c_uchar,
