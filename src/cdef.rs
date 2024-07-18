@@ -1,7 +1,5 @@
-use std::{
-    mem::{transmute, transmute_copy},
-    os::raw::{c_char, c_int, c_short, c_uchar, c_uint, c_ushort, c_void},
-};
+use std::mem::transmute_copy;
+use std::os::raw::{c_char, c_int, c_short, c_uchar, c_uint, c_ushort, c_void};
 
 pub type XCBAtom = c_uint;
 pub type XCBWindow = c_uint;
@@ -68,8 +66,32 @@ impl Into<XCBKeyPressEvent> for XCBGenericEvent {
     }
 }
 
+impl Into<XCBKeyReleaseEvent> for XCBGenericEvent {
+    fn into(self) -> XCBKeyReleaseEvent {
+        unsafe { transmute_copy(&self) }
+    }
+}
+
 #[repr(C)]
 pub struct XCBKeyPressEvent {
+    pub response_type: c_uchar,
+    pub detail: XCBKeycode,
+    pub sequence: c_ushort,
+    pub time: XCBTimestamp,
+    pub root: XCBWindow,
+    pub event: XCBWindow,
+    pub child: XCBWindow,
+    pub root_x: c_short,
+    pub root_y: c_short,
+    pub event_x: c_short,
+    pub event_y: c_short,
+    pub state: c_ushort,
+    pub same_screen: c_uchar,
+    pub pad0: c_uchar,
+}
+
+#[repr(C)]
+pub struct XCBKeyReleaseEvent {
     pub response_type: c_uchar,
     pub detail: XCBKeycode,
     pub sequence: c_ushort,

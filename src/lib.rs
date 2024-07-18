@@ -32,6 +32,7 @@ pub type XCBGetAtomNameCookie = cdef::XCBGetAtomNameCookie;
 pub type XCBGetAtomNameReply = cdef::XCBGetAtomNameReply;
 pub type XCBScreenIterator = cdef::XCBScreenIterator;
 pub type XCBGenericEvent = cdef::XCBGenericEvent;
+pub type XCBKeyReleaseEvent = cdef::XCBKeyReleaseEvent;
 pub type XCBExposeEvent = cdef::XCBExposeEvent;
 pub type XCBEnterNotifyEvent = cdef::XCBEnterNotifyEvent;
 pub type XCBDestroyNotifyEvent = cdef::XCBDestroyNotifyEvent;

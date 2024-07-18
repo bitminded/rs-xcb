@@ -35,6 +35,7 @@ pub const XCB_EVENT_MASK_COLOR_MAP_CHANGE: c_uint = 8388608;
 pub const XCB_EVENT_MASK_OWNER_GRAB_BUTTON: c_uint = 16777216;
 
 pub const XCB_KEY_PRESS: c_uchar = 2;
+pub const XCB_KEY_RELEASE: c_uchar = 3;
 pub const XCB_ENTER_NOTIFY: c_uchar = 7;
 pub const XCB_EXPOSE: c_uchar = 12;
 pub const XCB_VISIBILITY_NOTIFY: c_uchar = 15;
